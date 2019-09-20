@@ -1,6 +1,6 @@
 {
   "name": "@runmeetly/karl",
-  "version": "0.0.2-SNAPSHOT",
+  "version": "0.0.2",
   "description": "Image preloader.",
   "main": "dist/karl.min.js",
   "repository": "https://github.com/runmeetly/karl",
