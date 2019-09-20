@@ -1,36 +1,41 @@
-/**
- * Future Open Source ?
+/*
+ *  Copyright 2019 Meetly Inc.
  *
- * peter
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 
 import { MemoryPreloaderBackend } from "./MemoryPreloaderBackend";
 import { Preloader } from "./Preloader";
 
 /**
- * @typedef {{contains: (function(*): boolean), insert: insert}} PreloaderBackend
- *
- * Creates the default PreloaderBackend
- *
- * @return {PreloaderBackend}
- */
-const createDefaultPreloaderBackend = function createDefaultPreloaderBackend() {
-  return MemoryPreloaderBackend.create();
-};
-
-/**
- * Default PreloaderBackend
- *
- * @type {PreloaderBackend}
- */
-const DEFAULT_BACKEND = createDefaultPreloaderBackend();
-
-/**
  * Default Preloader
  *
- * @type {Preloader}
+ * @type {ImagePreloader|null}
  */
-const DEFAULT_PRELOADER = new Preloader(DEFAULT_BACKEND);
+let defaultPreloader = null;
+
+/**
+ * Lazy resolves the default preloader
+ *
+ * @return {ImagePreloader}
+ */
+const getDefaultPreloader = () => {
+  if (!defaultPreloader) {
+    defaultPreloader = Preloader.create(MemoryPreloaderBackend.create());
+  }
+
+  return defaultPreloader;
+};
 
 /**
  * Stupid simple class for pre-loading image sources into browser memory at a point before they
@@ -45,16 +50,16 @@ export class Karl {
    * @return {Promise<*>} - Resolves with Image source, or rejects with error message
    */
   static preload(image) {
-    return DEFAULT_PRELOADER.preload(image);
+    return getDefaultPreloader().preload(image);
   }
 
   /**
    * Constructs a Preloader with a custom PreloaderBackend
    *
    * @param {PreloaderBackend} backend - Preloader backend
-   * @return {Preloader}
+   * @return {ImagePreloader}
    */
   static withBackend(backend) {
-    return new Preloader(backend);
+    return Preloader.create(backend);
   }
 }

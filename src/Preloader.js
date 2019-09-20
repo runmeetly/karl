@@ -1,3 +1,19 @@
+/*
+ *  Copyright 2019 Meetly Inc.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 /**
  * Preload an image source
  *
@@ -7,11 +23,11 @@
  *       new Image() object here as well, the browser would eventually GC our
  *       image - which is no fun.
  *
- * @param {*} image - Image source
  * @param {PreloaderBackend} backend - Preloader backend
+ * @param {*} image - Image source
  * @return {Promise<*>} - Resolves with Image source, or rejects with error message
  */
-const preloadImage = (image, backend) => {
+const preloadImage = (backend, image) => {
   return new Promise((resolve, reject) => {
     const preload = new Image();
 
@@ -42,34 +58,41 @@ const error = message => {
  */
 export class Preloader {
   /**
-   * Creates a new preloader
-   *
+   * Create a new ImagePreloader
    * @param {PreloaderBackend} backend - Preloader backend
+   * @return {ImagePreloader} Configured image preloader
    */
-  constructor(backend) {
+  static create(backend) {
     if (!backend) {
       throw error("You must construct a Preloader with a backend.");
     }
 
-    this._backend = backend;
-  }
+    /**
+     * Image Preloader class
+     *
+     */
+    class ImagePreloader {
+      /**
+       * Preloads an image if has not been preloaded originally
+       *
+       * @param {*} image - Image source
+       * @return {Promise<*>} - Resolves with Image source, or rejects with error message
+       */
+      preload(image) {
+        if (!image) {
+          return Promise.reject(
+            error("You must call preload() with an image.")
+          );
+        }
 
-  /**
-   * Preloads an image if has not been preloaded originally
-   *
-   * @param {*} image - Image source
-   * @return {Promise<*>} - Resolves with Image source, or rejects with error message
-   */
-  preload(image) {
-    if (!image) {
-      return Promise.reject(error("You must call preload() with an image."));
+        if (backend.contains(image)) {
+          return Promise.resolve(image);
+        } else {
+          return preloadImage(backend, image);
+        }
+      }
     }
 
-    const backend = this._backend;
-    if (backend.contains(image)) {
-      return Promise.resolve(image);
-    } else {
-      return preloadImage(image, backend);
-    }
+    return new ImagePreloader();
   }
 }
