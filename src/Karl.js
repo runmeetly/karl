@@ -54,6 +54,16 @@ export class Karl {
   }
 
   /**
+   * Preloads a material text icon into a hidden div if has not been preloaded originally
+   *
+   * @param {string} iconName - material icon name
+   * @return {Promise<*>} - Resolves with icon name, or rejects with error message
+   */
+  static preloadMaterialTextIcon(iconName) {
+    return getDefaultPreloader().preloadMaterialTextIcon(iconName);
+  }
+
+  /**
    * Constructs a Preloader with a custom PreloaderBackend
    *
    * @param {PreloaderBackend} backend - Preloader backend

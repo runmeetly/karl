@@ -1,6 +1,6 @@
 {
   "name": "@runmeetly/karl",
-  "version": "0.0.3-SNAPSHOT",
+  "version": "0.0.3",
   "description": "Image preloader.",
   "main": "dist/karl.min.js",
   "repository": "https://github.com/runmeetly/karl",
@@ -24,7 +24,7 @@
     "cross-env": "6.0.3",
     "prettier": "1.18.2",
     "uglifyjs-webpack-plugin": "2.2.0",
-    "webpack": "4.41.0",
+    "webpack": "4.41.2",
     "webpack-cli": "3.3.9"
   },
   "scripts": {

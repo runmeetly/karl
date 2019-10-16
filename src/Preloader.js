@@ -15,6 +15,12 @@
  */
 
 /**
+ * Class name for material icons
+ * @type {string}
+ */
+const MATERIAL_ICONS_CLASS_NAME = "material-icons";
+
+/**
  * Preload an image source
  *
  * NOTE: We persist the image source as a uniqueness constraint, and the actual
@@ -40,6 +46,59 @@ const preloadImage = (backend, image) => {
 
     // Finally, we cache inside the store.
     backend.insert(image, preload);
+  });
+};
+
+/**
+ * Preload a text icon
+ *
+ * NOTE: We persist the image source as a uniqueness constraint, and the actual
+ *       preloaded image object. Many browsers will GC image roots as soon as
+ *       all references to them are unreachable - so if we did not cache the
+ *       new Image() object here as well, the browser would eventually GC our
+ *       image - which is no fun.
+ *
+ * @param {PreloaderBackend} backend - Preloader backend
+ * @param {string} iconClass - css class name for text icon
+ * @param {string} iconName - text icon name
+ * @return {Promise<*>} - Resolves with icon name, or rejects with error message
+ */
+const preloadTextIcon = (backend, iconClass, iconName) => {
+  return new Promise((resolve, reject) => {
+    try {
+      // Create a div from the document
+      if (!!document) {
+        const div = document.createElement("div");
+
+        // Style the div as a hidden (don't mark as display none or it won't render)
+        div.style.width = "0px";
+        div.style.height = "0px";
+        div.style.color = "transparent";
+
+        // Set the class name to the icon class so it can load the css icon
+        // Apply d-none bg-transparent for bootstrap compat if possible
+        div.setAttribute(
+          "class",
+          `${iconClass} runmeetly-karl-${iconName} bg-transparent`
+        );
+
+        // Set the inner html as the icon name so that the icon will begin loading.
+        div.innerHTML = iconName;
+
+        // Add the div to the document body
+        document.body.appendChild(div);
+
+        // Finally, we cache inside the store.
+        backend.insert(iconName, iconName);
+      } else {
+        // No document, no dice
+        reject(
+          new Error("Missing document - are you running in a backend context?")
+        );
+      }
+    } catch (e) {
+      reject(e);
+    }
   });
 };
 
@@ -89,6 +148,26 @@ export class Preloader {
           return Promise.resolve(image);
         } else {
           return preloadImage(backend, image);
+        }
+      }
+
+      /**
+       * Preloads a material text icon into a hidden div if has not been preloaded originally
+       *
+       * @param {string} iconName - material icon name
+       * @return {Promise<*>} - Resolves with icon name, or rejects with error message
+       */
+      preloadMaterialTextIcon(iconName) {
+        if (!iconName) {
+          return Promise.reject(
+            error("You must call preloadMaterialTextIcon() with an iconName.")
+          );
+        }
+
+        if (backend.contains(iconName)) {
+          return Promise.resolve(iconName);
+        } else {
+          return preloadTextIcon(backend, MATERIAL_ICONS_CLASS_NAME, iconName);
         }
       }
     }
