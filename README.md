@@ -25,45 +25,63 @@ Karl.preload(SvgFile);
 Karl.preload("/path/to/image/file.png");
 Karl.preload(BASE64_PNG_OR_SVG_DATA);
 
+Karl.preloadMaterialTextIcon("close");
+Karl.preloadMaterialTextIcon("add");
+Karl.preloadMaterialTextIcon("arrow_up");
+
 Karl.withBackend(MyCustomBackend).preload(PngFile);
+Karl.withBackend(MyCustomBackend).preloadMaterialTextIcon("person");
 ```
 
 ## API
 
 `Karl` has a small API surface - but can prove rather powerful.  
-`Karl` exposes two functions, `preload()`, and `withBackend()`.
+`Karl` exposes a couple functions, `preload()`, `preloadMaterialTextIcon()`,
+and `withBackend()`.
 
-`preload` accepts a single parameter of basically anything - as  
-long as it ultimately represents image `data`. A path to a file,  
-a Webpack parsed import, base 64 encoded png or svg data - anything.  
-It returns a `Promise` which resolves with the original `data` once  
-it has been loaded, and rejects with an `Error` if something went  
-wrong. It is optional to handle the returned `Promise`, `Karl`  
-will always preload the image data you pass it silently. Once you  
-call `preload`, the image will be cached for later use and will  
+`preload` accepts a single parameter of basically anything - as
+long as it ultimately represents image `data`. A path to a file,
+a Webpack parsed import, base 64 encoded png or svg data - anything.
+It returns a `Promise` which resolves with the original `data` once
+it has been loaded, and rejects with an `Error` if something went
+wrong. It is optional to handle the returned `Promise`, `Karl`
+will always preload the image data you pass it silently. Once you
+call `preload`, the image will be cached for later use and will
 persist for as long as the backend and the browser allows.
 
-`withBackend` is a more advanced method, and accepts an object which  
-conforms to the `PreloaderBackend` interface. A backend implementation  
-is backed by whatever kind of storage you want - the default  
-implementation is simply in-memory. A backend has both `contains` and  
-`insert` functions. `contains` is called with a `key` parameter from  
-the `preload` method - and should return a boolean based on whether that  
-`key` is already cached in the backend. `insert` is called with a `key`  
-and a `value`, and should insert the value into the backend and mark it  
+`preloadMaterialTextIcon` accepts a single parameter which is the name of a
+`material-icons` text icon. It will preload the icon by creating a hidden div
+at the bottom of your document body. This will help prevent instances where
+upon the first load of the material-icon, you would briefly see the actual
+text while the CSS icon is loading. Once you call `preloadMaterialTextIcon`,
+the div will be inserted only once and will persist for as long as the
+backend and the browser allows.
+
+NOTE: `preloadMaterialTextIcon` does not set up the project to work with
+Material Icon fonts automatically - you must do this setup manually.
+
+`withBackend` is a more advanced method, and accepts an object which
+conforms to the `PreloaderBackend` interface. A backend implementation
+is backed by whatever kind of storage you want - the default
+implementation is simply in-memory. A backend has both `contains` and
+`insert` functions. `contains` is called with a `key` parameter from
+the `preload` method - and should return a boolean based on whether that
+`key` is already cached in the backend. `insert` is called with a `key`
+and a `value`, and should insert the value into the backend and mark it
 with the key.
 
-The `withBackend` returns a new `Karl`, which exposes the `preload` method  
-and is powered by your provided backend.
+The `withBackend` returns a new `Karl`, which exposes the `preload` and
+`preloadMaterialTextIcon` methods and is powered by your provided backend.
 
-For most cases, you will be fine using the default backend, which is  
-automatically injected for you when you call `Karl.preload().`
+For most cases, you will be fine using the default backend, which is
+automatically injected for you when you call `Karl.preload()` or
+`Karl.preloadMaterialTextIcon()`.
 
 ## Caveats
 
-Browsers are ultimately in control of when and how they allocate their resources.  
-If you ask `Karl` to preload a whole bunch of images - the browser can at its  
-discretion evict previously loaded images.
+Browsers are ultimately in control of when and how they allocate their
+resources. If you ask `Karl` to preload a whole bunch of images - the
+browser can at its discretion evict previously loaded images.
 
 Karl may not be perfect, but he's trying his best.
 
