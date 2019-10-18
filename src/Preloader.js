@@ -151,8 +151,8 @@ export class Preloader {
         if (!image) {
           if (!!onError) {
             onError(error("You must call preload() with an image."));
-            return;
           }
+          return;
         }
 
         if (backend.contains(image)) {
@@ -175,8 +175,8 @@ export class Preloader {
         if (!iconName) {
           if (!!onError) {
             onError(error("Call preloadMaterialTextIcon() with iconName."));
-            return;
           }
+          return;
         }
 
         if (backend.contains(iconName)) {
