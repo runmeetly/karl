@@ -31,8 +31,8 @@ const MATERIAL_ICONS_CLASS_NAME = "material-icons";
  *
  * @param {PreloaderBackend} backend - Preloader backend
  * @param {*} image - Image source
- * @param {Function} onLoaded - Callback on load complete
- * @param {Function} onError - Callback on load error
+ * @param {Function?} onLoaded - Callback on load complete
+ * @param {Function?} onError - Callback on load error
  */
 const preloadImage = (backend, image, onLoaded, onError) => {
   const preload = new Image();
@@ -65,8 +65,8 @@ const preloadImage = (backend, image, onLoaded, onError) => {
  * @param {PreloaderBackend} backend - Preloader backend
  * @param {string} iconClass - css class name for text icon
  * @param {string} iconName - text icon name
- * @param {Function} onLoaded - Callback on load complete
- * @param {Function} onError - Callback on load error
+ * @param {Function?} onLoaded - Callback on load complete
+ * @param {Function?} onError - Callback on load error
  */
 const preloadTextIcon = (backend, iconClass, iconName, onLoaded, onError) => {
   try {
@@ -144,8 +144,8 @@ export class Preloader {
        * Preloads an image if has not been preloaded originally
        *
        * @param {*} image - Image source
-       * @param {Function} onLoaded - Callback on load complete
-       * @param {Function} onError - Callback on load error
+       * @param {Function?} onLoaded - Callback on load complete
+       * @param {Function?} onError - Callback on load error
        */
       preload(image, onLoaded, onError) {
         if (!image) {
@@ -168,8 +168,8 @@ export class Preloader {
        * Preloads a material text icon into a hidden div if has not been preloaded originally
        *
        * @param {string} iconName - material icon name
-       * @param {Function} onLoaded - Callback on load complete
-       * @param {Function} onError - Callback on load error
+       * @param {Function?} onLoaded - Callback on load complete
+       * @param {Function?} onError - Callback on load error
        */
       preloadMaterialTextIcon(iconName, onLoaded, onError) {
         if (!iconName) {

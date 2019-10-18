@@ -1,7 +1,6 @@
 # Karl
 
-`Karl` is an ES6, Promise speaking Image preloader.
-It requires zero dependencies.
+`Karl` is an ES6  Image preloader. It requires zero dependencies.
 
 ## Install
 
@@ -42,11 +41,10 @@ and `withBackend()`.
 `preload` accepts a single parameter of basically anything - as
 long as it ultimately represents image `data`. A path to a file,
 a Webpack parsed import, base 64 encoded png or svg data - anything.
-It returns a `Promise` which resolves with the original `data` once
-it has been loaded, and rejects with an `Error` if something went
-wrong. It is optional to handle the returned `Promise`, `Karl`
-will always preload the image data you pass it silently. Once you
-call `preload`, the image will be cached for later use and will
+It optionally accepts callbacks for `onLoaded` and `onError` events.
+It is optional to attach callbacks, and in many cases you won't need to.
+`Karl` will always attempt to preload the image data you pass it silently.
+Once you call `preload`, the image will be cached for later use and will
 persist for as long as the backend and the browser allows.
 
 `preloadMaterialTextIcon` accepts a single parameter which is the name of a

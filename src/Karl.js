@@ -47,8 +47,8 @@ export class Karl {
    * Preloads an image if has not been preloaded originally
    *
    * @param {*} image - Image source
-   * @param {Function} onLoaded - Callback on load complete
-   * @param {Function} onError - Callback on load error
+   * @param {Function?} onLoaded - Callback on load complete
+   * @param {Function?} onError - Callback on load error
    */
   static preload(image, onLoaded, onError) {
     getDefaultPreloader().preload(image, onLoaded, onError);
@@ -58,8 +58,8 @@ export class Karl {
    * Preloads a material text icon into a hidden div if has not been preloaded originally
    *
    * @param {string} iconName - material icon name
-   * @param {Function} onLoaded - Callback on load complete
-   * @param {Function} onError - Callback on load error
+   * @param {Function?} onLoaded - Callback on load complete
+   * @param {Function?} onError - Callback on load error
    */
   static preloadMaterialTextIcon(iconName, onLoaded, onError) {
     getDefaultPreloader().preloadMaterialTextIcon(iconName, onLoaded, onError);
