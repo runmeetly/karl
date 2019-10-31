@@ -52,7 +52,7 @@ const config = {
     library: "Karl",
     libraryTarget: "umd",
     umdNamedDefine: true,
-    globalObject: `typeof self !== 'undefined' ? self : this`
+    globalObject: "this"
   },
   module: {
     rules: [
@@ -68,11 +68,7 @@ const config = {
       }
     ]
   },
-  resolve: {
-    modules: [path.resolve("./node_modules"), path.resolve("./src")],
-    extensions: [".js"]
-  },
-  plugins: plugins
+  plugins
 };
 
 module.exports = config;
