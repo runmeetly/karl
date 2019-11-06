@@ -1,12 +1,17 @@
 {
   "name": "@runmeetly/karl",
-  "version": "0.0.6-SNAPSHOT",
+  "version": "0.0.6",
   "description": "Image preloader.",
   "main": "dist/karl.min.js",
   "repository": "https://github.com/runmeetly/karl",
   "author": "Peter Yamanaka <peter@runmeetly.com>",
   "license": "Apache-2.0",
   "private": false,
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/"
+  ],
   "keywords": [
     "loader",
     "image",
