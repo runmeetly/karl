@@ -42,16 +42,14 @@ function preloadImage(backend, image, onLoaded, onError) {
   }
 
   try {
-    const preload = new Image();
+    const img = new Image();
 
     // Attach listeners to it
-    preload.addEventListener("load", () => onLoaded(preload));
-    preload.addEventListener("error", e => onError(e));
+    img.addEventListener("load", () => onLoaded(image));
+    img.addEventListener("error", (e) => onError(e));
 
     // Then set the src, which will begin the load
-    preload.src = image;
-
-    const img = document.createElement("img");
+    img.src = image;
 
     // Style the img as a hidden (don't mark as display none or it won't render)
     img.width = 0;
@@ -178,7 +176,7 @@ export class Preloader {
             preloadImage(
               backend,
               image,
-              result => {
+              (result) => {
                 // Clear the active
                 activePreloads[image] = null;
 
@@ -191,7 +189,7 @@ export class Preloader {
                   resolve(result);
                 }
               },
-              err => {
+              (err) => {
                 // Clear the active
                 activePreloads[image] = null;
 
@@ -248,7 +246,7 @@ export class Preloader {
               backend,
               MATERIAL_ICONS_CLASS_NAME,
               iconName,
-              result => {
+              (result) => {
                 // Clear the active
                 activePreloads[iconName] = null;
 
@@ -261,7 +259,7 @@ export class Preloader {
                   resolve(result);
                 }
               },
-              err => {
+              (err) => {
                 // Clear the active
                 activePreloads[iconName] = null;
 
@@ -278,7 +276,7 @@ export class Preloader {
           });
         }
         return activePreloads[iconName];
-      }
+      },
     });
   }
 }
