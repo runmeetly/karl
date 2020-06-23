@@ -1,6 +1,6 @@
 {
   "name": "@runmeetly/karl",
-  "version": "0.1.1-SNAPSHOT",
+  "version": "0.2.0",
   "description": "Image preloader.",
   "main": "dist/karl.min.js",
   "repository": "https://github.com/runmeetly/karl",
@@ -21,15 +21,15 @@
     "es6"
   ],
   "devDependencies": {
-    "@babel/core": "7.7.0",
-    "@babel/preset-env": "7.7.1",
-    "@babel/register": "7.7.0",
-    "babel-loader": "8.0.6",
-    "cross-env": "6.0.3",
-    "prettier": "1.18.2",
+    "@babel/core": "7.10.3",
+    "@babel/preset-env": "7.10.3",
+    "@babel/register": "7.10.3",
+    "babel-loader": "8.1.0",
+    "cross-env": "7.0.2",
+    "prettier": "2.0.5",
     "uglifyjs-webpack-plugin": "2.2.0",
-    "webpack": "4.41.2",
-    "webpack-cli": "3.3.10"
+    "webpack": "4.43.0",
+    "webpack-cli": "3.3.12"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --colors --optimize-minimize",

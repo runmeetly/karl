@@ -15,26 +15,25 @@
  */
 
 /**
- * @typedef {{contains: (function(*): boolean), insert: insert}} PreloaderBackend
  * A preloader backend which is backed by short term memory storage
  */
 export class MemoryPreloaderBackend {
   /**
    * Create a new MemoryPreloaderBackend
    *
-   * @return {PreloaderBackend}
+   * @returns {PreloaderBackend}
    */
   static create() {
     const PRELOADED_IMAGES = {};
 
-    return {
+    return Object.freeze({
       contains: function contains(key) {
         return !!PRELOADED_IMAGES[key];
       },
 
-      insert: function insert(key, value) {
+      set: function set(key, value) {
         PRELOADED_IMAGES[key] = value;
       }
-    };
+    });
   }
 }

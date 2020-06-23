@@ -20,27 +20,30 @@ import { Preloader } from "./Preloader";
 /**
  * Default Preloader
  *
- * @type {ImagePreloader|null}
+ * @type {Preloader|null}
  */
 let defaultPreloader = null;
 
 /**
  * Lazy resolves the default preloader
  *
- * @return {ImagePreloader}
+ * @returns {Preloader}
  */
-const getDefaultPreloader = () => {
+function getDefaultPreloader() {
   if (!defaultPreloader) {
     defaultPreloader = Preloader.create(MemoryPreloaderBackend.create());
   }
 
   return defaultPreloader;
-};
+}
 
 /**
  * Stupid simple class for pre-loading image sources into browser memory at a point before they
  * may be needed by the DOM. Can help avoid screens where images all appear blank as they are
  * taking time to load by loading everything in advance.
+ *
+ * @typedef {Readonly<{contains: (function(*): boolean), set: set}>} PreloaderBackend
+ * @typedef Readonly<{preloadMaterialTextIcon: preloadMaterialTextIcon, preload: preload}> Preloader
  */
 export class Karl {
   /**
@@ -49,9 +52,10 @@ export class Karl {
    * @param {*} image - Image source
    * @param {Function?} onLoaded - Callback on load complete
    * @param {Function?} onError - Callback on load error
+   * @returns {*|Promise<*>}
    */
   static preload(image, onLoaded, onError) {
-    getDefaultPreloader().preload(image, onLoaded, onError);
+    return getDefaultPreloader().preload(image, onLoaded, onError);
   }
 
   /**
@@ -60,16 +64,21 @@ export class Karl {
    * @param {string} iconName - material icon name
    * @param {Function?} onLoaded - Callback on load complete
    * @param {Function?} onError - Callback on load error
+   * @returns {*|Promise<*>}
    */
   static preloadMaterialTextIcon(iconName, onLoaded, onError) {
-    getDefaultPreloader().preloadMaterialTextIcon(iconName, onLoaded, onError);
+    return getDefaultPreloader().preloadMaterialTextIcon(
+      iconName,
+      onLoaded,
+      onError
+    );
   }
 
   /**
    * Constructs a Preloader with a custom PreloaderBackend
    *
    * @param {PreloaderBackend} backend - Preloader backend
-   * @return {ImagePreloader}
+   * @returns {Preloader}
    */
   static withBackend(backend) {
     return Preloader.create(backend);
