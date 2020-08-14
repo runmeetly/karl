@@ -155,7 +155,7 @@ export class Preloader {
       preload: function preload(image, onLoaded, onError) {
         if (!image) {
           const err = error("You must call preload() with an image.");
-          if (!!onError) {
+          if (onError) {
             onError(err);
             return;
           } else {
@@ -164,7 +164,7 @@ export class Preloader {
         }
 
         if (backend.contains(image)) {
-          if (!!onLoaded) {
+          if (onLoaded) {
             onLoaded(image);
             return;
           } else {
@@ -183,7 +183,7 @@ export class Preloader {
                 // Save the result
                 backend.set(image, result);
 
-                if (!!onLoaded) {
+                if (onLoaded) {
                   onLoaded(result);
                 } else {
                   resolve(result);
@@ -196,7 +196,7 @@ export class Preloader {
                 // Remove the result
                 backend.set(image, null);
 
-                if (!!onError) {
+                if (onError) {
                   onError(err);
                 } else {
                   reject(err);
@@ -223,7 +223,7 @@ export class Preloader {
       ) {
         if (!iconName) {
           const err = error("Call preloadMaterialTextIcon() with iconName.");
-          if (!!onError) {
+          if (onError) {
             onError(err);
             return;
           } else {
@@ -232,7 +232,7 @@ export class Preloader {
         }
 
         if (backend.contains(iconName)) {
-          if (!!onLoaded) {
+          if (onLoaded) {
             onLoaded(iconName);
             return;
           } else {
@@ -253,7 +253,7 @@ export class Preloader {
                 // Insert the result
                 backend.set(iconName, result);
 
-                if (!!onLoaded) {
+                if (onLoaded) {
                   onLoaded(result);
                 } else {
                   resolve(result);
@@ -266,7 +266,7 @@ export class Preloader {
                 // Clear the result
                 backend.set(iconName, null);
 
-                if (!!onError) {
+                if (onError) {
                   onError(err);
                 } else {
                   reject(err);
